@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222; /* Light black background color */
+            color: #000; /* Black text color */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #007bff; /* Highlighted title color */
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Results Sheet</h1>
+        <p>Name: <span id="name"></span></p>
+        <p>Risk Level: <span id="risk"></span>%</p>
+    </div>
+
+    <script>
+        // Populate the results with data fetched from an external source or API
+        const results = {
+            name: '{{results.name}}',
+            risk: '{{results.risk}}'
+        };
+
+        document.getElementById('name').textContent = results.name;
+        document.getElementById('risk').textContent = results.risk;
+    </script>
+</body>
+</html>
