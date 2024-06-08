@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222; /* Light black background color */
+            color: #000; /* Black text color */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8); /* Background color with transparency */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff; /* Highlighted title color */
+        }
+
+        p, label {
+            font-size: 1.1em;
+        }
+
+        form p {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"], input[type="submit"] {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: calc(100% - 22px);
+        }
+
+        input[type="submit"] {
+            color: white;
+            background-color: #007bff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+
+        .radio-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .radio-group label {
+            margin-right: 10px;
+            font-size: 1em;
+        }
+
+        .radio-group input {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Heart Disease Risk Level Predictor</h1>
+        <p>Please fill this form with your correct and true details</p>
+
+        <form id="patient-form" action="http://127.0.0.1:5000/getresults" method="POST">
+            <p>Name <input type="text" name="name" id="name"/> <span class="error" id="name-error"></span></p>
+            <p>Age <input type="text" name="age" id="age"/> <span class="error" id="age-error"></span></p>
+            <p>TC (mg/dL) <input type="text" name="tc" id="tc"/> <span class="error" id="tc-error"></span></p>
+            <p>HDL (mg/dL) <input type="text" name="hdl" id="hdl"/> <span class="error" id="hdl-error"></span></p>
+
+            <div class="radio-group">
+                <label>Gender:</label>
+                <input type="radio" name="gender" id="gender-male" value="0">
+                <label for="gender-male">Male</label>
+                <input type="radio" name="gender" id="gender-female" value="1">
+                <label for="gender-female">Female</label>
+                <span class="error" id="gender-error"></span>
+            </div>
+
+            <div class="radio-group">
+                <label>Smoke:</label>
+                <input type="radio" name="smoke" id="smoke-yes" value="1">
+                <label for="smoke-yes">Yes</label>
+                <input type="radio" name="smoke" id="smoke-no" value="0">
+                <label for="smoke-no">No</label>
+                <span class="error" id="smoke-error"></span>
+            </div>
+
+            <div class="radio-group">
+                <label>Blood Pressure Medication:</label>
+                <input type="radio" name="bpm" id="bpm-yes" value="1">
+                <label for="bpm-yes">Yes</label>
+                <input type="radio" name="bpm" id="bpm-no" value="0">
+                <label for="bpm-no">No</label>
+                <span class="error" id="bpm-error"></span>
+            </div>
+
+            <div class="radio-group">
+                <label>Diabetics:</label>
+                <input type="radio" name="diab" id="diab-yes" value="1">
+                <label for="diab-yes">Yes</label>
+                <input type="radio" name="diab" id="diab-no" value="0">
+                <label for="diab-no">No</label>
+                <span class="error" id="diab-error"></span>
+            </div>
+
+            <p><input type="submit" value="Submit Details"/></p>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('patient-form').addEventListener('submit', function(event) {
+            let valid = true;
+
+            // Clear previous errors
+            document.querySelectorAll('.error').forEach(function(el) {
+                el.textContent = '';
+            });
+
+            // Validate text fields
+            const textFields = ['name', 'age', 'tc', 'hdl'];
+            textFields.forEach(function(field) {
+                const input = document.getElementById(field);
+                if (input.value.trim() === '') {
+                    valid = false;
+                    document.getElementById(`${field}-error`).textContent = 'This field is required';
+                }
+            });
+
+            // Validate radio groups
+            const radioGroups = ['gender', 'smoke', 'bpm', 'diab'];
+            radioGroups.forEach(function(field) {
+                if (!document.querySelector(`input[name="${field}"]:checked`)) {
+                    valid = false;
+                    document.getElementById(`${field}-error`).textContent = 'This field is required';
+                }
+            });
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    </script>
+
+</body>
+</html>
